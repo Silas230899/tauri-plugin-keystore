@@ -44,8 +44,6 @@ class StoreRequest {
 
 @InvokeArg
 class RetrieveRequest {
-    lateinit var service: String
-    lateinit var user: String
     lateinit var keyAlias: String
 }
 

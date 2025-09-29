@@ -1,36 +1,56 @@
 import { invoke } from "@tauri-apps/api/core";
 
-export interface StoreRequest {
-  keyAlias: string;
-  value: string;
-  promptTitle: string;
-  promptSubtitle: string;
-  promptNegativeButtonText: string;
+interface StoreOptions {
+  keyAlias?: string;
+  promptTitle?: string;
+  promptSubtitle?: string;
+  promptNegativeButtonText?: string;
 }
 
-export async function store(args: StoreRequest): Promise<void> {
+/**
+ * Speichert einen geheimen Wert sicher im Android Keystore (biometrisch geschützt).
+ * @param value - Der zu speichernde geheime Wert.
+ * @param options - Optional: Key-Alias und Texte für den Biometrie-Prompt.
+ */
+export async function store(
+  value: string,
+  options: StoreOptions = {}
+): Promise<void> {
+  const {
+    keyAlias = "default",
+    promptTitle = "Authenticate",
+    promptSubtitle = "",
+    promptNegativeButtonText = "Cancel",
+  } = options;
+  
   return await invoke<void>("plugin:keystore|store", {
     payload: {
-      args,
+      keyAlias,
+      value,
+      promptTitle,
+      promptSubtitle,
+      promptNegativeButtonText,
     },
   });
 }
 
-export async function retrieve(
-  service: string,
-  user: string,
-  keyAlias: string
-): Promise<string | null> {
+/**
+ * Ruft einen gespeicherten Wert ab.
+ * @param keyAlias - Der Key-Alias, unter dem der Wert gespeichert wurde (Standard: "default")
+ */
+export async function retrieve(keyAlias = "default"): Promise<string | null> {
   return await invoke<{ value?: string }>("plugin:keystore|retrieve", {
     payload: {
-      service,
-      user,
       keyAlias,
     },
   }).then((r) => (r.value ? r.value : null));
 }
 
-export async function remove(keyAlias: string): Promise<void> {
+/**
+ * Entfernt einen gespeicherten Wert.
+ * @param keyAlias - Der Key-Alias, unter dem der Wert gespeichert wurde (Standard: "default")
+ */
+export async function remove(keyAlias = "default"): Promise<void> {
   return await invoke<void>("plugin:keystore|remove", {
     payload: {
       keyAlias,
