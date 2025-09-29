@@ -5,6 +5,9 @@ use serde::{Deserialize, Serialize};
 pub struct StoreRequest {
     pub value: String,
     pub key_alias: Option<String>, // optional, Standard: "default"
+    pub prompt_title: Option<String>,
+    pub prompt_subtitle: Option<String>,
+    pub prompt_negative_button_text: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
