@@ -14,7 +14,7 @@ export declare function store(value: string, options?: StoreOptions): Promise<vo
  * Ruft einen gespeicherten Wert ab.
  * @param keyAlias - Der Key-Alias, unter dem der Wert gespeichert wurde (Standard: "default")
  */
-export declare function retrieve(keyAlias?: string): Promise<string | null>;
+export declare function retrieve(options?: StoreOptions): Promise<string | null>;
 /**
  * Entfernt einen gespeicherten Wert.
  * @param keyAlias - Der Key-Alias, unter dem der Wert gespeichert wurde (Standard: "default")

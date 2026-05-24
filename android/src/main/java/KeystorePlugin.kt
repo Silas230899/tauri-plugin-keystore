@@ -45,6 +45,9 @@ class StoreRequest {
 @InvokeArg
 class RetrieveRequest {
     lateinit var keyAlias: String
+    lateinit var promptTitle: String
+    lateinit var promptSubtitle: String
+    lateinit var promptNegativeButtonText: String
 }
 
 @InvokeArg
@@ -250,10 +253,9 @@ class KeystorePlugin(private val activity: Activity) : Plugin(activity) {
 
         // Build the prompt info.
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            // TODO: read from args
-            .setTitle("Biometric Authentication")
-            .setSubtitle("Authenticate to decrypt your secret")
-            .setNegativeButtonText("Cancel")
+            .setTitle(args.promptTitle)
+            .setSubtitle(args.promptSubtitle)
+            .setNegativeButtonText(args.promptNegativeButtonText)
             .build()
 
         // Launch the biometric prompt.

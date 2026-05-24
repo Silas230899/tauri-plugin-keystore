@@ -13,7 +13,10 @@ pub struct StoreRequest {
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RetrieveRequest {
-    pub key_alias: String, // wir nutzen nur key_alias
+    pub key_alias: String,
+    pub prompt_title: Option<String>,
+    pub prompt_subtitle: Option<String>,
+    pub prompt_negative_button_text: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Serialize)]

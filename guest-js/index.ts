@@ -38,10 +38,20 @@ export async function store(
  * Ruft einen gespeicherten Wert ab.
  * @param keyAlias - Der Key-Alias, unter dem der Wert gespeichert wurde (Standard: "default")
  */
-export async function retrieve(keyAlias = "default"): Promise<string | null> {
+export async function retrieve(options: StoreOptions = {}): Promise<string | null> {
+  const {
+    keyAlias = "default",
+    promptTitle = "Authenticate",
+    promptSubtitle = "",
+    promptNegativeButtonText = "Cancel",
+  } = options;
+  
   return await invoke<{ value?: string }>("plugin:keystore|retrieve", {
     payload: {
       keyAlias,
+      promptTitle,
+      promptSubtitle,
+      promptNegativeButtonText,
     },
   }).then((r) => (r.value ? r.value : null));
 }
